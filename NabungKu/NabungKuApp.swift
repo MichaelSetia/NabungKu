@@ -10,16 +10,19 @@ import SwiftData
 
 @main
 struct NabungKuApp: App {
-    var sharedModelContainer: ModelContainer = {
+   
+    var shareModelContainer : ModelContainer = {
         let schema = Schema([
-            Item.self,
+            TransactionData.self,
+            CategoryTransaction.self
         ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
+        let modelConfig = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+        
+        do{
+            return try ModelContainer(for: schema, configurations: [modelConfig])
+        }
+        catch {
+            fatalError("Failed to create ModelContainer, Error \(error)")
         }
     }()
 
@@ -27,6 +30,6 @@ struct NabungKuApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(sharedModelContainer)
+        .modelContainer(shareModelContainer)
     }
 }

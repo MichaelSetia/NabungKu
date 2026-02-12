@@ -8,54 +8,49 @@
 import SwiftUI
 import SwiftData
 
+
+enum Tab{
+    case home
+    case statics
+}
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
+    @State private var selectedTab: Tab = .home
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
-                }
-                .onDelete(perform: deleteItems)
+        TabView(selection: $selectedTab){
+            NavigationStack{
+                Home()
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [.purple.opacity(0.6), .gray.opacity(0.2)]), // Contoh perpaduan warna
+                            startPoint: .top,
+                            endPoint: .center
+                        )
+                        .ignoresSafeArea()
+                    )
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
+            .tabItem{ Label("Home", systemImage: "house.fill")}
+            .tag(Tab.home)
+            
+            NavigationStack{
+                Statistic()
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [.purple.opacity(0.6), .gray.opacity(0.2)]), // Contoh perpaduan warna
+                            startPoint: .top,
+                            endPoint: .center
+                        )
+                        .ignoresSafeArea()
+                    )
             }
-        } detail: {
-            Text("Select an item")
+            .tabItem{ Label("Statistics", systemImage: "chart.bar.horizontal.page.fill")}
+            .tag(Tab.statics)
         }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
-        }
+        .accentColor(Color.purple)
+        
     }
 }
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+        .modelContainer(for:[TransactionData.self, CategoryTransaction.self])
 }
