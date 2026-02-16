@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		4CAF82522F3DE77200E58C43 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 4CAF82512F3DE77200E58C43 /* WrappingHStack */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		4CB92F2D2F32117100B45E80 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CAF82522F3DE77200E58C43 /* WrappingHStack in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = NabungKu;
 			packageProductDependencies = (
+				4CAF82512F3DE77200E58C43 /* WrappingHStack */,
 			);
 			productName = NabungKu;
 			productReference = 4CB92F1D2F32117000B45E80 /* NabungKu.app */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = 4CB92F142F32117000B45E80;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				4CAF82502F3DE77200E58C43 /* XCRemoteSwiftPackageReference "WrappingHStack" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 4CB92F1E2F32117000B45E80 /* Products */;
 			projectDirPath = "";
@@ -578,6 +587,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4CAF82502F3DE77200E58C43 /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dkk/WrappingHStack";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.11;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4CAF82512F3DE77200E58C43 /* WrappingHStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4CAF82502F3DE77200E58C43 /* XCRemoteSwiftPackageReference "WrappingHStack" */;
+			productName = WrappingHStack;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4CB92F152F32117000B45E80 /* Project object */;
 }

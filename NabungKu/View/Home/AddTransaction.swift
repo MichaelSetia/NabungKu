@@ -7,71 +7,94 @@
 
 import SwiftUI
 import SwiftData
+import WrappingHStack
 
-enum Category: String, Identifiable {
-    case food, transport, entertainment, other
-    var id: String { self.rawValue }
-}
 
 struct AddTransaction: View {
     @Environment(\.dismiss) var dismiss
-    @Query private var category: [CategoryTransaction]
-    @State var amount: Double = 0
-    @State var name: String = ""
-    @State var categotry: Category?
-    @State var buttonSelect : Bool = false
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-        VStack{
-            TextField("Amount", value: $amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
-                .font(Font.largeTitle)
-                .multilineTextAlignment(.center)
-                .keyboardType(.decimalPad)
-            
-            TextField("Name", text: $name)
-                .padding(15)
-                .background(.thinMaterial)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(style: StrokeStyle(lineWidth: 1))
-                )
-                
-                .cornerRadius(10)
-                .padding()
+    @Environment(\.modelContext) private var modelContext
 
-            ForEach(category){item in
-                Button{
-                    buttonSelect.toggle()
-                } label: {
-                    Image(systemName: "\(item.icon)")
-                    Text("\(item.icon)")
-                }
-                .buttonStyle(.borderedProminent)
-                .buttonBorderShape(.capsule)
-                .tint(Color(.red))
-                .overlay{
-                    Capsule()
-                        .stroke(Color.blue, lineWidth: buttonSelect ? 0 : 2)
-                }
-            }
+    @State private var viewModel : AddTransactionViewModel?
+
+    let columns = [GridItem(.adaptive(minimum: 80))]
+    
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10){
+            if let viewModel{
+                @Bindable var viewModel = viewModel
+                CustomNumberField(amount: $viewModel.amount, title: "Amount")
                 
-            
-            
+                CustomTextField(name: $viewModel.name, title: "Name")
+                
+                CategoryTransactions(buttonSelect: $viewModel.buttonSelect, categories: viewModel.category)
+
+            }
+            if let error = viewModel?.errorMesaage{
+                Text(error)
+            }
+            Spacer()
             
         }
-            .toolbar{
-                ToolbarItem(placement: .cancellationAction) {
-                    Button{
-                        dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
-                    }
+        .navigationTitle("Add Transaction")
+        .navigationBarTitleDisplayMode(.inline)
+        .padding()
+        .onAppear{
+            viewModel = AddTransactionViewModel(modelcontext: modelContext)
+        }
+        .toolbar{
+            ToolbarItem(placement: .cancellationAction) {
+                Button{
+                    dismiss()
+                } label: {
+                    Image(systemName: "xmark")
                 }
             }
+            ToolbarItem(placement: .confirmationAction) {
+                Button{
+                    viewModel?.AddTransaction()
+                } label: {
+                    Image(systemName: "checkmark")
+                }
+            }
+        }
     }
-    
+
+
 }
 
-#Preview {
-    AddTransaction()
+struct CategoryTransactions: View {
+    @Binding var buttonSelect: CategoryTransaction?
+    let categories: [CategoryTransaction]
+
+    var body: some View {
+        VStack{
+            Text("Category :")
+            WrappingHStack(categories) { item in
+                Button {
+                    buttonSelect = item
+                } label: {
+                    Image(systemName: item.icon ?? "")
+                    Text(item.name)
+                }
+                .foregroundStyle(buttonSelect?.id == item.id ? .white : .purple)
+                .buttonStyle(.borderedProminent)
+                .buttonBorderShape(.capsule)
+                .tint(buttonSelect?.id == item.id ? .purple.opacity(0.6) : .white)
+                .overlay(
+                    Capsule()
+                        .stroke(Color.purple.opacity(0.6), lineWidth: buttonSelect?.id == item.id ?  0 : 2)
+                )
+                .padding(.horizontal,2)
+                .padding(.vertical,4)
+            }
+        }
+    }
 }
+
+
+//#Preview {
+//    AddTransaction(
+//        .modelContainer(for: [TransactionData.self,CategoryTransaction.self])
+//    )
+//}

@@ -14,7 +14,9 @@ struct NabungKuApp: App {
     var shareModelContainer : ModelContainer = {
         let schema = Schema([
             TransactionData.self,
-            CategoryTransaction.self
+            CategoryTransaction.self,
+            UserData.self,
+            Prediction.self
         ])
         let modelConfig = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
         

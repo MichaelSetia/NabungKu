@@ -8,7 +8,7 @@ import Foundation
 import SwiftData
 
 @Model
-class CategoryTransaction {
+class CategoryTransaction : Identifiable {
     var id: UUID
     var name: String
     var icon : String?

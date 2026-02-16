@@ -9,11 +9,11 @@ import SwiftUI
 import SwiftData
 
 struct AllTransaction: View {
-    let transaction : [TransactionData]
+    @Query(sort: \TransactionData.date, order: .reverse) var transactions: [TransactionData]
     var body: some View {
         ScrollView{
             VStack{
-                ForEach(transaction) { item in
+                ForEach(transactions) { item in
                     CardExpense(title: item.name, description: item.category?.name ?? "", amount: item.amount,icon: item.category?.icon ?? "house")
                 }
             }
@@ -22,18 +22,18 @@ struct AllTransaction: View {
         }
         .navigationTitle("All Transaction")
         .navigationBarTitleDisplayMode(.inline)
+        .background(
+            LinearGradient(
+                gradient: Gradient(colors: [.purple.opacity(0.6), .gray.opacity(0.2)]), // Contoh perpaduan warna
+                startPoint: .top,
+                endPoint: .center
+            )
+            .ignoresSafeArea()
+        )
         
     }
 }
 
 #Preview {
-    let foodCategory = CategoryTransaction(name: "Makanan", icon: "pizza")
-       
-       // Buat transaksi contoh
-       let sampleTransactions = [
-        TransactionData(name: "Nasi Goreng", amount: 25000, date: Date(), isFixedTransaction: .NotFixed, categoryID: foodCategory),
-        TransactionData(name: "Gaji", amount: 5000000, date: Date(), isFixedTransaction: .Fixed, categoryID: foodCategory),
-        TransactionData(name: "Bensin", amount: 50000, date: Date().addingTimeInterval(-86400), isFixedTransaction: .Fixed, categoryID: foodCategory)
-       ]
-    AllTransaction(transaction: sampleTransactions)
+    AllTransaction()
 }

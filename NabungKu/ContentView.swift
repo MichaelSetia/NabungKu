@@ -52,5 +52,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for:[TransactionData.self, CategoryTransaction.self])
+        .modelContainer(for:[TransactionData.self, CategoryTransaction.self, UserData.self, Prediction.self])
 }

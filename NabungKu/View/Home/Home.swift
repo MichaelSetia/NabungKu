@@ -17,18 +17,15 @@ enum ActiveSheet : Identifiable {
 
 struct Home: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var transaction: [TransactionData]
-    @Query private var category: [CategoryTransaction]
+    @State private var viewModel: HomeViewModel?
     @State private var isPresent : ActiveSheet?
     var body: some View {
         ScrollView{
             VStack {
-                
                 Button("Seed Data") {
-                    DataSeeder.seedData(context: modelContext)
+                    viewModel?.seedData()
                 }
                 .buttonStyle(.glass)
-                
             }
             .frame(height: 100)
             .padding(20)
@@ -39,23 +36,26 @@ struct Home: View {
                         .font(Font.title3.bold())
                     Spacer()
                     
-                    NavigationLink(destination: AllTransaction(transaction: transaction)){
+                    NavigationLink(destination: AllTransaction()){
                         Text("See All")
                     }
                     
                 }
-                if transaction.isEmpty{
+                if ((viewModel?.transaction.isEmpty) == nil){
                     Spacer()
                     ContentUnavailableView("Kosong", systemImage:"tray", description: Text("Belum ada transaksi untuk sekarang"))
                 }
                 else{
-                    ForEach(transaction.prefix(5)) { item in
+                    ForEach(viewModel?.transaction ?? []) { item in
                         CardExpense(title: item.name, description: item.date.formatted(date: .abbreviated, time:.omitted), amount: item.amount, icon: item.category?.icon ?? "house")
                     }
                 }
                 
             }
             .padding()
+        }
+        .task{
+            viewModel = HomeViewModel(modelContex: modelContext)
         }
         .toolbar{
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -87,6 +87,8 @@ struct Home: View {
             
         }
     }
+    
+        
 }
 
 #Preview {
