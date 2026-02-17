@@ -36,45 +36,59 @@ class DataSeeder {
             TransactionData(
                 name: "Nasi Goreng Malam",
                 amount: 25000.0,
-                date: dateFormatter.date(from: "2024-01-15") ?? Date(),
+                date: dateFormatter.date(from: "2026-01-15") ?? Date(),
                 isFixedTransaction: .NotFixed,
                 categoryID: categories[0]  // Makanan & Minuman
             ),
             TransactionData(
                 name: "Gojek ke Kantor",
                 amount: 35000.0,
-                date: dateFormatter.date(from: "2024-01-15") ?? Date(),
+                date: dateFormatter.date(from: "2026-01-15") ?? Date(),
                 isFixedTransaction: .Fixed,
                 categoryID: categories[1]  // Transportasi
             ),
             TransactionData(
                 name: "Gaji Januari",
                 amount: 10_000_000.0,
-                date: dateFormatter.date(from: "2024-01-05") ?? Date(),
+                date: dateFormatter.date(from: "2026-01-05") ?? Date(),
                 isFixedTransaction: .Fixed,
                 categoryID: categories[4]  // Gaji & Pendapatan
             ),
             TransactionData(
                 name: "Belanja Bulanan",
                 amount: 1_200_000.0,
-                date: dateFormatter.date(from: "2024-01-10") ?? Date(),
+                date: dateFormatter.date(from: "2026-01-10") ?? Date(),
                 isFixedTransaction: .Fixed,
                 categoryID: categories[2]  // Belanja
             ),
             TransactionData(
                 name: "Netflix Subscription",
                 amount: 109_000.0,
-                date: dateFormatter.date(from: "2024-01-01") ?? Date(),
+                date: dateFormatter.date(from: "2026-01-01") ?? Date(),
                 isFixedTransaction: .Fixed,
                 categoryID: categories[3]  // Hiburan
             ),
             TransactionData(
                 name: "Transfer Tabungan",
                 amount: 2_500_000.0,
-                date: dateFormatter.date(from: "2024-01-06") ?? Date(),
+                date: dateFormatter.date(from: "2026-01-06") ?? Date(),
                 isFixedTransaction: .Fixed,
-                categoryID: categories[5]  // Tabungan
-            )
+                categoryID: categories[5] 
+            ),
+            TransactionData(
+                name: "Transfer Tabungan",
+                amount: 2_500_000.0,
+                date: dateFormatter.date(from: "2025-12-06") ?? Date(),
+                isFixedTransaction: .Fixed,
+                categoryID: categories[5]
+            ),
+            TransactionData(
+                name: "Netflix",
+                amount: 2_500_000.0,
+                date: dateFormatter.date(from: "2025-12-029") ?? Date(),
+                isFixedTransaction: .Fixed,
+                categoryID: categories[3]
+            ),
         ]
         
         transactions.forEach { context.insert($0) }

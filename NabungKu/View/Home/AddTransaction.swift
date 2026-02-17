@@ -14,23 +14,23 @@ struct AddTransaction: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
 
-    @State private var viewModel : AddTransactionViewModel?
+    let viewModel : HomeViewModel
 
     let columns = [GridItem(.adaptive(minimum: 80))]
     
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10){
-            if let viewModel{
-                @Bindable var viewModel = viewModel
-                CustomNumberField(amount: $viewModel.amount, title: "Amount")
-                
-                CustomTextField(name: $viewModel.name, title: "Name")
-                
-                CategoryTransactions(buttonSelect: $viewModel.buttonSelect, categories: viewModel.category)
+            
+            @Bindable var viewModel = viewModel
+            CustomNumberField(amount: $viewModel.amount, title: "Amount")
+            
+            CustomTextField(name: $viewModel.name, title: "Name")
+            
+            CategoryTransactions(buttonSelect: $viewModel.buttonSelect, categories: viewModel.category)
 
-            }
-            if let error = viewModel?.errorMesaage{
+            
+            if let error = viewModel.errorMessage{
                 Text(error)
             }
             Spacer()
@@ -39,9 +39,6 @@ struct AddTransaction: View {
         .navigationTitle("Add Transaction")
         .navigationBarTitleDisplayMode(.inline)
         .padding()
-        .onAppear{
-            viewModel = AddTransactionViewModel(modelcontext: modelContext)
-        }
         .toolbar{
             ToolbarItem(placement: .cancellationAction) {
                 Button{
@@ -52,7 +49,9 @@ struct AddTransaction: View {
             }
             ToolbarItem(placement: .confirmationAction) {
                 Button{
-                    viewModel?.AddTransaction()
+                    viewModel.AddTransaction()
+                    
+                    dismiss()
                 } label: {
                     Image(systemName: "checkmark")
                 }

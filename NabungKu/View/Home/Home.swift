@@ -22,13 +22,27 @@ struct Home: View {
     var body: some View {
         ScrollView{
             VStack {
-                Button("Seed Data") {
+                Text("Month Expense")
+                Text("\(viewModel?.currentMonthExpense ?? 0,format: .currency(code: Locale.current.currency?.identifier ?? "USA"))")
+                    .font(Font.title.bold())
+                
+                Spacer()
+                Button{
                     viewModel?.seedData()
+                }label: {
+                    Text("Seed")
                 }
-                .buttonStyle(.glass)
             }
-            .frame(height: 100)
+            .frame(height: 30)
             .padding(20)
+            
+            VStack(alignment: .leading){
+                Text("Monthly Budget : \(viewModel?.monthlyBuget ?? 0 , format: .currency(code: Locale.current.currency?.identifier ?? "USA"))")
+                    .font(.caption)
+                BugetBar(currentSpending: viewModel?.currentMonthExpense ?? 0, bugetLimit: viewModel?.budgetLimit ?? 0)
+            }
+            .frame(height: 50)
+            .padding()
             
             VStack{
                 HStack{
@@ -41,7 +55,7 @@ struct Home: View {
                     }
                     
                 }
-                if ((viewModel?.transaction.isEmpty) == nil){
+                if (viewModel?.transaction.isEmpty ?? true){
                     Spacer()
                     ContentUnavailableView("Kosong", systemImage:"tray", description: Text("Belum ada transaksi untuk sekarang"))
                 }
@@ -77,17 +91,17 @@ struct Home: View {
             switch sheet {
             case .addTransaction:
                 NavigationStack{
-                    AddTransaction()
+                    AddTransaction(viewModel: viewModel!)
                 }
             case .settings:
                 NavigationStack{
-                    SettingPreference()
+                    SettingPreference(viewModel : viewModel!)
                 }
             }
             
         }
     }
-    
+
         
 }
 

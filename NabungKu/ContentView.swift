@@ -35,7 +35,7 @@ struct ContentView: View {
                 Statistic()
                     .background(
                         LinearGradient(
-                            gradient: Gradient(colors: [.purple.opacity(0.6), .gray.opacity(0.2)]), // Contoh perpaduan warna
+                            gradient: Gradient(colors: [.purple.opacity(0.8), .gray.opacity(0.2)]), // Contoh perpaduan warna
                             startPoint: .top,
                             endPoint: .center
                         )
