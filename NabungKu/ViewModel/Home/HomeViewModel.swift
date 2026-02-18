@@ -51,7 +51,7 @@ final class HomeViewModel {
     }
     
     var monthlyBuget: Double {
-        return   budgetLimit - currentMonthExpense
+        return budgetLimit - currentMonthExpense
     }
     
     func fetchData(Limit: Int? = 5) {
